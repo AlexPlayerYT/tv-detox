@@ -37,11 +37,16 @@ final class LineIcon extends Drawable {
     private final RectF arc = new RectF();
 
     LineIcon(int[] ops) {
+        this(ops, 0xEBFFFFFF);
+    }
+
+    // The same icon in another colour (the light Wii wallpaper needs dark ink).
+    LineIcon(int[] ops, int color) {
         this.ops = ops;
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);
-        paint.setColor(0xEBFFFFFF);
+        paint.setColor(color);
     }
 
     @Override

@@ -13,6 +13,7 @@ final class Strings {
         "Move", "Replace", "Remove from home", "Uninstall", "App info",
         "Use the arrows to move it, then press OK", "Every app is already here", "Add an app", "Replace %s", "Wallpaper", "TV settings", "Brightness",
         "Rename", "Show hidden inputs", "TV", "Laptop", "PC", "Blu-ray", "Soundbar", "Type a name…",
+        "Gmail isn't installed", "No SIM", "This TV has no notifications panel",
     };
 
     // Keyed by language ("de"), or language-country ("zh-TW") where a country writes it differently.
@@ -35,6 +36,7 @@ final class Strings {
             "Mover", "Reemplazar", "Quitar del inicio", "Desinstalar", "Info. de la app",
             "Usa las flechas para moverla y pulsa OK", "Todas las apps ya están aquí", "Añadir una app", "Reemplazar %s", "Fondo de pantalla", "Ajustes de la TV", "Brillo",
             "Renombrar", "Mostrar entradas ocultas", "TV", "Portátil", "PC", "Blu-ray", "Barra de sonido", "Escribe un nombre…",
+            "Gmail no está instalado", "Sin SIM", "Esta TV no tiene panel de notificaciones",
         });
         LANGS.put("fr", new String[] {
             "Paramètres", "Ajouter une app", "Réseau", "Hors ligne", "Son", "Image",
@@ -154,5 +156,38 @@ final class Strings {
     static String datePattern() {
         if ("en".equals(lang())) return "EEEE, d MMMM";
         return android.text.format.DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEEdMMMM");
+    }
+
+    // The Wii wallpaper's date, spelled out: "Lunes, 16 de Noviembre de 2026" in Spanish, "Monday, November 16, 2026"
+    // in English, the language's own long form elsewhere.
+    static String wiiDatePattern() {
+        String lang = lang();
+        if ("es".equals(lang)) return "EEEE, d 'de' MMMM 'de' y";
+        if ("en".equals(lang)) return "EEEE, MMMM d, y";
+        return android.text.format.DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEEdMMMMy");
+    }
+
+    // Capital letters for the day and the month, as the Wii date is written: every word of three letters or
+    // more in Spanish and English ("de" stays small), only the first letter in other languages (French and
+    // German write months differently).
+    static String wiiDateCase(String date) {
+        String lang = lang();
+        Locale l = Locale.getDefault();
+        if (date.isEmpty()) return date;
+        if (!"es".equals(lang) && !"en".equals(lang)) return date.substring(0, 1).toUpperCase(l) + date.substring(1);
+        String[] words = date.split(" ", -1);
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < words.length; i++) {
+            String w = words[i];
+            if (i > 0) out.append(' ');
+            out.append(w.length() > 2 && Character.isLetter(w.charAt(0)) ? w.substring(0, 1).toUpperCase(l) + w.substring(1) : w);
+        }
+        return out.toString();
+    }
+
+    // The short date under the Wii wallpaper's clock: "Fri. 1/1" in English, the language's own short form elsewhere.
+    static String shortDatePattern() {
+        if ("en".equals(lang())) return "EEE. M/d";
+        return android.text.format.DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEMd");
     }
 }

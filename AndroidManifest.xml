@@ -29,6 +29,8 @@
         <!-- Google TV's own home screen, which HomeButton opens when Back is held. -->
         <package android:name="com.google.android.apps.tv.launcherx" />
     </queries>
+    <!-- Only for the Wii wallpaper's bell: lets it ask the system to pull down its notifications panel. -->
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
     <!-- Lets "Uninstall" in the app menu open Android's uninstall prompt. -->
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
     <uses-feature android:name="android.software.leanback" android:required="false" />
