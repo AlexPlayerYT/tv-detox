@@ -162,9 +162,27 @@ final class Strings {
     // in English, the language's own long form elsewhere.
     static String wiiDatePattern() {
         String lang = lang();
-        if ("es".equals(lang)) return "EEEE, d 'de' MMMM 'de' y";
-        if ("en".equals(lang)) return "EEEE, MMMM d, y";
-        return android.text.format.DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEEdMMMMy");
+        if ("es".equals(lang)) return "EEEE, d 'de' MMMM 'de' yyyy";
+        if ("en".equals(lang)) return "EEEE, MMMM d, yyyy";
+        return fullYear(android.text.format.DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEEdMMMMy"));
+    }
+
+    // Android's date formatter writes a lone "y" as two digits ("26"); the date wants the whole year ("2026").
+    // Only letters outside quotes are touched.
+    private static String fullYear(String pattern) {
+        StringBuilder out = new StringBuilder();
+        boolean quoted = false;
+        for (int i = 0; i < pattern.length(); i++) {
+            char c = pattern.charAt(i);
+            if (c == '\'') quoted = !quoted;
+            if (!quoted && c == 'y') {
+                while (i + 1 < pattern.length() && pattern.charAt(i + 1) == 'y') i++;
+                out.append("yyyy");
+            } else {
+                out.append(c);
+            }
+        }
+        return out.toString();
     }
 
     // Capital letters for the day and the month, as the Wii date is written: every word of three letters or

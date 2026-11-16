@@ -174,7 +174,7 @@ public class MainActivity extends Activity {
     private static final int WII_RADIUS = 32, WII_SHADOW = 20; // room for the drop shadow, right and bottom
     // Round buttons: Play Store and the mail envelope big in the two corners, the gear and the bell small beside them.
     private static final int WII_BIG = 200, WII_BIG_ICON = 124, WII_SMALL = 130, WII_SMALL_ICON = 76;
-    private static final int WII_CORNER = 80, WII_BIG_Y = 859, WII_DISC_GAP = 30;
+    private static final int WII_CORNER = 80, WII_BIG_Y = 840, WII_DISC_GAP = 30; // the circle is centred on its plate
     // Where the time and the date start, above and below the ribbon.
     private static final int WII_TIME_Y = 752, WII_DATE_Y = 935;
     // The strip above the grid: the avatar on the left, the status icons on the right.
